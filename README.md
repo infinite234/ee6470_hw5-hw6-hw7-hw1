@@ -2,9 +2,9 @@
 # implementation of 3*3 Gaussian blur filter in cpp and in systemc.
 ## alignment of this repository
 ### for software part(.cpp)
--ee6470
--hw1/gauss_filter_cpp
--gauss_filter_cpp
+-ee6470  
+-hw1/gauss_filter_cpp  
+-gauss_filter_cpp  
 -gauss_filter_cpp<br/>
 this folder contains all the files (gaussion.cpp), source image(lena.bmp) and target image(lena_gauss.bmp).
 
