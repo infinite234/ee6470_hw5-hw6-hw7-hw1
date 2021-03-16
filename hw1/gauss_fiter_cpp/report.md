@@ -81,21 +81,21 @@ o_b.write(B);                        |                 double B = i_b.read();
 The input given to the code is a bitmap file and the output er get is a blur image bitmap file.
 ### Part one
 lena.bmp is the original image whereas len_gauss.bmp is the  new blurr image. (software.(.cpp))
-lena.bmp
-![source image](https://raw.githubusercontent.com/infinite234/ee6470/main/hw1/gauss_fiter_cpp/lena.bmp)
+lena.bmp<br/>
+![source image](https://raw.githubusercontent.com/infinite234/ee6470/main/hw1/gauss_fiter_cpp/lena.bmp)<br/>
 
-lena_gauss.bmp
-![target image](https://raw.githubusercontent.com/infinite234/ee6470/main/hw1/gauss_fiter_cpp/lena_gauss.bmp)
+lena_gauss.bmp<br/>
+![target image](https://raw.githubusercontent.com/infinite234/ee6470/main/hw1/gauss_fiter_cpp/lena_gauss.bmp)<br/>
 
 
 ### Part two
 lena_std_short.bmp is the original image whereas lena_gauss2.bmp is the  new blurr image.(systemc)
-lena_std_short.bmp.
+lena_std_short.bmp.<br/>
 
-![source image](https://raw.githubusercontent.com/infinite234/ee6470/main/hw1/gauss_fiter_cpp/lena_std_short.bmp)
+![source image](https://raw.githubusercontent.com/infinite234/ee6470/main/hw1/gauss_fiter_cpp/lena_std_short.bmp)<br/>
 
-lena_gauss2.bmp
-![target image](https://raw.githubusercontent.com/infinite234/ee6470/main/hw1/gauss_fiter_cpp/lena_gauss2.bmp)
+lena_gauss2.bmp<br/>
+![target image](https://raw.githubusercontent.com/infinite234/ee6470/main/hw1/gauss_fiter_cpp/lena_gauss2.bmp)<br/>
 
 ## Conclusion
 Thus, successful implementation of gaussian blur filter in software and hardware(systemc) has been done resulting to successful blurring lena.bmp and lena_gauss2.bmp image  as shown in results.
