@@ -88,8 +88,9 @@ lena_gauss.bmp
 
 ### Part two
 lena_std_short.bmp is the original image whereas lena_gauss2.bmp is the  new blurr image.
-lena_std_short.bmp
-![source image](“https://github.com/infinite234/ee6470/blob/main/hw1/gauss_fiter_cpp/lena_std_short.bmp?raw=true”)
+lena_std_short.bmp.
+
+![source image](“https://raw.githubusercontent.com/infinite234/ee6470/main/hw1/gauss_fiter_cpp/lena_std_short.bmp”)
 
 lena_gauss2.bmp
 
