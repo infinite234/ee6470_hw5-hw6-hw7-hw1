@@ -1,0 +1,30 @@
+make[2]: Nothing to be done for `bdw_work/wrappers/SobelFilter_wrap.h'.
+Generating dependencies for ../Testbench.cpp
+/usr/cadtool/cadence/STRATUS/cur/bin/bdw_shell /usr/cadtool/cadence/STRATUS/cur/share/stratus/tcl/bdw_siminfo.tcl project.tcl B
+make[3]: Nothing to be done for `bdw_work/wrappers/SobelFilter_wrap.h'.
+/usr/cadtool/cadence/STRATUS/cur/tools.lnx86/stratus/gcc/4.8/bin/ar rc bdw_work/libesc/libesc.a bdw_work/libesc/libesc.o bdw_work/libesc/esc_elab.o bdw_work/libesc/esc_cleanup.o
+/usr/cadtool/cadence/STRATUS/cur/tools.lnx86/stratus/gcc/4.8/bin/g++ -o bdw_work/objs/Testbench.o -I./ -Ibdw_work/wrappers   -I.. -c -DCLOCK_PERIOD=10.0 -g    -fPIC  -I/usr/cadtool/cadence/STRATUS/cur/share/stratus/include -I/usr/cadtool/cadence/STRATUS/cur/tools.lnx86/stratus/systemc/2.3.1/include  -DBDW_HUB=1    -DBDW_USE_SCV=0 ../Testbench.cpp
+/usr/cadtool/cadence/STRATUS/cur/tools.lnx86/stratus/gcc/4.8/bin/g++ -Wl,--export-dynamic   \
+        -Wl,-rpath,/usr/cadtool/cadence/STRATUS/cur/tools.lnx86/stratus/lib/64bit \
+        -Wl,-rpath,/usr/cadtool/cadence/STRATUS/cur/tools.lnx86/lib/64bit \
+        -Wl,-rpath,/usr/cadtool/cadence/STRATUS/cur/tools.lnx86/stratus/systemc/2.3.1/lib-linux64 \
+	-o bdw_work/sims/B/sim_B \
+	bdw_work/objs/SobelFilter.o bdw_work/objs/main.o bdw_work/objs/Testbench.o bdw_work/objs/System.o \
+	 \
+	 \
+        bdw_work/libesc/libesc.a \
+	 \
+	-L /usr/cadtool/cadence/STRATUS/cur/tools.lnx86/lib/64bit -L /usr/cadtool/cadence/STRATUS/cur/tools.lnx86/stratus/lib/64bit  -L /usr/cadtool/cadence/STRATUS/cur/tools.lnx86/stratus/systemc/2.3.1/lib-linux64 -lscv -lsystemc  -lhubexec -lhub  -lbdw_st  
+make --no-print-directory -f Makefile scsim_B
+Executing simulation: bdw_work/sims/B/sim_B  ../lena_std_short.bmp out.bmp
+
+
+        SystemC 2.3.1-Accellera --- Feb 14 2019 12:08:38
+        Copyright (c) 1996-2014 by all Contributors,
+        ALL RIGHTS RESERVED
+NOTE: Cadence Design Systems Hub Simulation Platform : version 19.12-s100
+
+Info: /OSCI/SystemC: Simulation stopped by user.
+Total run time = 13107190 ns
+Simulated time == 13107250 ns
+BDW_SIM_CONFIG_DIR=bdw_work/sims/B make saySimPassed 2>&1 | tee -a bdw_work/sims/B/bdw_sim.log
