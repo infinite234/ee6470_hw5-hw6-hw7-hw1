@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<tool_log>
+	<tool_kind>LogicSimulator</tool_kind>
+	<tool_name>OSCI</tool_name>
+	<hostname>ws32</hostname>
+	<uname>Linux 3.10.0-1127.19.1.el7.x86_64 x86_64</uname>
+	<cwd>/home/course/ee647002/ee6470/hw5/sobel_stratus/stratus</cwd>
+	<user>ee647002</user>
+	<gen_time>Mon Apr 26 16:36:26 2021</gen_time>
+	<module_inst>
+		<module_name>SobelFilter</module_name>
+		<inst_path>sys.sobel_filter</inst_path>
+		<representation>BEH</representation>
+	</module_inst>
+	<end_time>Mon Apr 26 16:36:28 2021</end_time>
+	<passed>1</passed>
+</tool_log>
