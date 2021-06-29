@@ -122,7 +122,7 @@ lena_gauss.bmp<br/>
 The gaussian part implementation using FIFO channels completes in 1245187 ns.
 Simulation for gaussian_fifo.<br/>
 
-![source image](https://github.com/infinite234/ee6470_hw3/blob/main/Screenshot%20from%202021-03-30%2015-20-47.png)<br/>
+![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/HW6/Screenshot%20from%202021-06-29%2010-59-50.png)<br/>
 
 
 ## Conclusion
