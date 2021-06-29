@@ -122,9 +122,8 @@ The transport function blocking_transport() is registered to the target socket o
 In main.cpp, We bind the initiator socket of Testbench to the target sockets of SobelFilter.
 
 ```sh
-Testbench tb("tb");
-  gaussFilter gauss_filter("gauss_filter");
-  tb.initiator.i_skt(gauss_filter.t_skt);
+bus.isocks[5].bind(gaussian_filter_1.tsock);
+bus.isocks[4].bind(gaussian_filter.tsock);
 
 ```
 ## Algorithm and Design
@@ -137,10 +136,12 @@ The following design is for the FIFO implementation of the gaussian filter in TL
 ## Simulation Results
 The gaussian part implementation using FIFO channels completes in 1245187 ns.
 Simulation for gaussian_fifo.<br/>
-Solarized dark             |  Solarized Ocean
+
+![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/Screenshot%20from%202021-06-29%2011-21-56.png)<br/>
+Core 0            |  Core 1
 :-------------------------:|:-------------------------:
 ![](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw7/Screenshot%20from%202021-06-29%2011-22-01.png)  |  ![](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw7/Screenshot%20from%202021-06-29%2011-22-04.png)
-![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/Screenshot%20from%202021-06-29%2011-21-56.png)<br/>
+
 
 
 ## Conclusion
