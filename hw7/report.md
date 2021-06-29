@@ -1,14 +1,14 @@
-# Homework-6: In this homework we will implement Cross-compile Gaussian Blur to RISC-V VP platform.
+# Homework-7: In this homework we will implement Data Partitioning of the Gaussian Blur Processing in RISC-V VP platform.
 
 ### _Shivani Singh (309591030)_
 
 ## Introduction
-For making a gaussian blur filter in RISC-V.
-Use RISCV-VP model with TLM 2.0 interface to build the hardware module for the gaussian blur.
+For implementing Data Partitioning of the Gaussian Blur Processing in RISC-V.
+Use RISCV-VP model with TLM 2.0 interface to build the hardware module for the gaussian blur.In this homework, we added two Gaussian Blur modules to the 2-core riscv-vp platform ("tiny32-mc"). The image is partitioned into equal parts and a multi-core program is written to issue the processing to the two modules. 
 Write a software application to control the hardware modules through bus.<br/>
 In this homework, three types of implementation is done:
--Porting the Gaussian blur module to the "basic-acc" platform\\
--Part two is implementing the gaussian filter in systemc\\
+-Porting the Gaussian blur module to the "tiny32-mc" platform\\
+-Part two is implementing the partitioned gaussian filter in systemc\\
 -Porting your test bench as a RISC-V software.
 
 
@@ -29,54 +29,79 @@ After designing the kernel we need to implement it to bitmap image for blurring.
 
 ### - Applying Gaussian kernel to bitmap image
 This code represents the application of the gaussian blur on bitmap image. Lets say the height and width of the image is equal to h and w. Thus to apply filter we need to slide the kernel through the whole image. In this example, to find index of 0th row and oth column after applying blur filter we need to take only some part of kernel thus we will take the kernel indices as (-1,0,1) and will check if the summation of image indices and kernel indices in the range of width and height, the remaining part of kernel not in the bound will be discarded.
+This is the part done in main.cpp file in sw.
 ```sh
-for (v = -yBound; v != yBound + adjustY; ++v) {
-          for (u = -xBound; u != xBound + adjustX; ++u) {
-            if (x + u >= 0 && x + u < width && y + v >= 0 && y + v < height) {
-              R = *(image_s + byte_per_pixel * (width * (y + v) + (x + u)) + 2);
-              G = *(image_s + byte_per_pixel * (width * (y + v) + (x + u)) + 1);
-              B = *(image_s + byte_per_pixel * (width * (y + v) + (x + u)) + 0);
-               
-              Red += R * ker[u + xBound][v + yBound];
-              Green += G *ker[u + xBound][v + yBound];
-              Blue += B* ker[u + xBound][v + yBound];
+for(int i = 0; i < width; i++){
+    for(int j = 0; j < length; j++){
+      for(int v = -1; v <= 1; v ++){
+        for(int u = -1; u <= 1; u++){
+          if((v + i) >= 0  &&  (v + i ) < width && (u + j) >= 0 && (u + j) < length ){
+            buffer[0] = *(source_bitmap + bytes_per_pixel * ((j + u) * width + (i + v)) + 2);
+            buffer[1] = *(source_bitmap + bytes_per_pixel * ((j + u) * width + (i + v)) + 1);
+            buffer[2] = *(source_bitmap + bytes_per_pixel * ((j + u) * width + (i + v)) + 0);
+            buffer[3] = 0;
+          }
+ ```
+ This is the part done in GaussFilter.cpp file in vp. In this code we are finding the RGB (double) value frrom the source image . since the output will only be blurred, so no need to convert into grayscale. After finding RGB value we will convolve it with kernel values to get the new RGB values. 
+```sh
+for (unsigned int v = 0; v < MASK_Y; ++v) {
+        for (unsigned int u = 0; u < MASK_X; ++u) {
+          //unsigned char grey = (i_r.read() + i_g.read() + i_b.read()) / 3;
+          wait(CLOCK_PERIOD, SC_NS);
 
-              total+= ker[u + xBound][v + yBound];
-            }}}
+            Red += i_r.read()* G_mask[u][v];
+          Green += i_g.read()* G_mask[u][v];
+          Blue += i_b.read()* G_mask[u][v];
 ```
-In this code we are finding the RGB (double) value frrom the source image . since the output will only be blurred, so no need to convert into grayscale. After finding RGB value we will convolve it with kernel values to get the new RGB values. 
-
+### - SystemC Implementation
+The following part shows the dma usage for reading the data from the virtual platform(vp) part and writing it into the software part i.e. the data is written to the tlm bus and then read from there using dma method.
 ```sh
-// Convert into rgb
-        *(image_t + byte_per_pixel * (width * y + x) + 2) = int(Red/total);
-        *(image_t + byte_per_pixel * (width * y + x) + 1) = int(Green/total);
-        *(image_t + byte_per_pixel * (width * y + x) + 0) = int(Blue/total);
+void read_data_from_ACC(char* ADDR, unsigned char* buffer, int len){
+  if(_is_using_dma){
+    // Using DMA 
+    *DMA_SRC_ADDR = (uint32_t)(ADDR);
+    *DMA_DST_ADDR = (uint32_t)(buffer);
+    *DMA_LEN_ADDR = len;
+    *DMA_OP_ADDR  = DMA_OP_MEMCPY;
+  }else{
+    // Directly Read
+    memcpy(buffer, ADDR, sizeof(unsigned char)*len);
+  }
+}
+```
+
+This is done in main.cpp file of sw for reading and writing the data i.e. calling the tlm command.
+```sh
+// reading and writing the data
+  sem_wait(&lock);
+
+          if (hart_id == 0) write_data_to_ACC(GaussFILTER_START_ADDR, buffer, 4);
+          else write_data_to_ACC(GaussFILTER_START_ADDRA, buffer, 4);
+          sem_post(&lock);
+          
+           sem_wait(&lock);
+      if (hart_id == 0) read_data_from_ACC(GaussFILTER_READ_ADDR, buffer, 4);
+      else read_data_from_ACC(GaussFILTER_READ_1_ADDRA, buffer, 4);
+      sem_post(&lock);
 ```
 Since the value of the kernel value is in integer and the factor for 3*3 matrix is 16 we will edit the target image RGB value for the same positions as of source image to (new RGB value/factor). Thus, successful implementation of applying gaussian blur filter is done.
 
 
 this is used to reasssign all the previous values that will be used in next iteration merged with the last new column and compute the result.
-### - SystemC Implementation
-In systemc, firstly three processes are made using sc_module i.e. input(read bmp), calculation(apply_gauss) and output(write bmp). So, the tesbench sends the value of r,g,b of target bitmap image to the gauss_filter where gauss_filter reads the r,g,b value and then compute the r,g,b and result value for output image and sends to the tesbench.cpp when the image is written.
-```sh
-"Testbench.cpp"                      |                "Gauss_filter.cpp"
-o_r.write(R);                        |                 double R =i_r.read();
-o_g.write(G);                        |                 double G =i_r.read();
-o_b.write(B);                        |                 double B = i_b.read();
-```
 
-Initializing initiator and target socket where  simple_initiator_socket of TLM-2.0 can be found in Initiator.h and simple_target_socket of TLM-2.0 can be found in SobelFilter.h.
+Initializing initiator and target socket where  simple_initiator_socket of TLM-2.0 can be found in main.cpp and simple_target_socket of TLM-2.0 can be found in GaussFilter.h.
 ```sh
  #include "tlm.h"
 #include "tlm_utils/simple_initiator_socket.h"
 #include "tlm_utils/simple_target_socket.h"
 ```
-Function read_from_socket() will read dataLen data from addr to rdata[]. Function write_to_socket() will write dataLen data from rdata[] to addr.
+Function tsock.register_b_transport() is used to assign the data as a part of blocking transport. It just mentions the connection between target and initiator socket.
       
  ```sh
- initiator.read_from_socket(gauss_FILTER_RESULT_ADDR, mask, data.uc, 4);
- total[0] = data.sint;
-initiator.write_to_socket(gauss_FILTER_R_ADDR, mask, data.uc, 4);
+tsock("t_skt"),  
+  {
+    tsock.register_b_transport(this, &GaussFilter::blocking_transport);
+  }
 ```
 
 
@@ -84,16 +109,15 @@ The transport function blocking_transport() is registered to the target socket o
 ```sh
  void gaussFilter::blocking_transport(tlm::tlm_generic_payload &payload,
                                      sc_core::sc_time &delay)
-case tlm::TLM_READ_COMMAND:
-    switch (addr) {
-    case gauss_FILTER_RESULT_ADDR:
-          buffer.uint= o_result1.read();
-          break;
-    case gauss_FILTER_RESULT2_ADDR:
-          buffer.uint= o_result2.read();
-          break;
-    case gauss_FILTER_RESULT3_ADDR:
-          buffer.uint= o_result3.read();
+ case tlm::TLM_READ_COMMAND:
+ switch (addr) {
+          case Gauss_FILTER_RESULT_ADDR:
+            buffer.uc[0] = (char)(o_result1.read());
+            buffer.uc[1] = (char)(o_result2.read());
+            buffer.uc[2] = (char)(o_result3.read());
+            buffer.uc[3] = 0;
+            break;
+          default:
 ```
 In main.cpp, We bind the initiator socket of Testbench to the target sockets of SobelFilter.
 
@@ -109,23 +133,15 @@ The following design is for the FIFO implementation of the gaussian filter in TL
 ![source image](https://github.com/infinite234/ee6470_hw3/blob/main/tlm.png)<br/>
 
 
-## Experimental results
-The input given to the code is a bitmap file and the output we get is a blur image bitmap file.
-lena.bmp is the original image whereas len_gauss.bmp is the  new blurr image. (software.(.cpp))<br/>
-lena_std_short.bmp.<br/>
-
-![source image](https://raw.githubusercontent.com/infinite234/ee6470/main/hw1/gauss_fiter_cpp/lena_std_short.bmp)<br/>
-lena_gauss.bmp<br/>
-![target image](https://raw.githubusercontent.com/infinite234/ee6470/main/hw1/gauss_fiter_cpp/lena_gauss2.bmp)<br/><br/>
 
 ## Simulation Results
 The gaussian part implementation using FIFO channels completes in 1245187 ns.
 Simulation for gaussian_fifo.<br/>
-
-![source image](https://github.com/infinite234/ee6470_hw3/blob/main/Screenshot%20from%202021-03-30%2015-20-47.png)<br/>
+Solarized dark             |  Solarized Ocean
+:-------------------------:|:-------------------------:
+![](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw7/Screenshot%20from%202021-06-29%2011-22-01.png)  |  ![](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw7/Screenshot%20from%202021-06-29%2011-22-04.png)
+![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/Screenshot%20from%202021-06-29%2011-21-56.png)<br/>
 
 
 ## Conclusion
-Thus, successful implementation of gaussian blur filter in TLM using TLM initiator socket and target socket has been done resulting to successful blurring lena.bmp and lena_gauss2.bmp image  as shown in results.
-
-# ee6470_hw3
+Thus, successful implementation of partitioned gaussian blur filter with 2 cores in TLM using TLM initiator socket and target socket in RISCV in both vp and sw has been done resulting to successful blurring lena.bmp and lena_gauss2.bmp image  as shown in results.
