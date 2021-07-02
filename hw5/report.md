@@ -168,7 +168,7 @@ Simulation for gaussian_fifo.<br/>
 FOR SPLITTED,
 ![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/SPLITTED.PNG)<br/>
 
-FOR NON SPLITTED,
+FOR NON SPLITTED,<br/>
 ![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/SHIV_STRATUS.PNG)<br/>
 
 ## Conclusion
