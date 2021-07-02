@@ -1,4 +1,4 @@
-# Homework-5: In this homework we will implement the Gaussian blur and testbench modules with TLM 2.0 sockets using bus.
+# Homework-5: In this homework, we will synthesize the kernel function of the Gaussian blur and annotate the timing back to the platform from previous homework and make a comparison of the simulated cycles between splited and non-splited input features.ALSO Showing the resource usage of the synthesized circuits. 
 ### _Shivani Singh (309591030)_
 
 ## Introduction
@@ -146,7 +146,7 @@ total3 = i_result3.get();            |                 o_result3.put(result3);
 ```
 
 ## Algorithm and Design
-The following design is for the FIFO implementation of the gaussian filter in TLM.
+The following design is for the FIFO implementation of the gaussian filter in STRATUS HLS.
 
 ![source image](https://github.com/infinite234/ee6470_hw3/blob/main/tlm.png)<br/>
 
@@ -167,7 +167,7 @@ FOR SPLITTED,
 ![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/SPLITTED.PNG)<br/>
 
 FOR NON SPLITTED,
-![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/SPLITTED.PNG)<br/>
+![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/SHIV_STRATUS.PNG)<br/>
 
 ## Conclusion
 Thus, successful implementation of gaussian blur filter in TLM using TLM initiator socket and target socket has been done resulting to successful blurring lena.bmp and lena_gauss2.bmp image  as shown in results.
