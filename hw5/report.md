@@ -172,8 +172,11 @@ FOR NON SPLITTED,<br/>
 ![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/SHIV_STRATUS.PNG)<br/>
 
 
-DPA Splitted,<br/>
+BASIC Splitted,<br/>
 ![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/Capture.PNG)<br/>
+
+DPA Splitted,<br/>
+![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/Capture1.PNG)<br/>
 
 ## Conclusion
 Thus, successful implementation of gaussian blur filter in TLM using TLM initiator socket and target socket has been done resulting to successful blurring lena.bmp and lena_gauss2.bmp image  as shown in results.
