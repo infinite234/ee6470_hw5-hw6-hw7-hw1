@@ -163,9 +163,11 @@ lena_gauss.bmp<br/>
 ## Simulation Results
 The gaussian part implementation using FIFO channels completes in 1245187 ns.
 Simulation for gaussian_fifo.<br/>
+FOR SPLITTED,
+![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/SPLITTED.PNG)<br/>
 
-![source image](https://github.com/infinite234/ee6470_hw3/blob/main/Screenshot%20from%202021-03-30%2015-20-47.png)<br/>
-
+FOR NON SPLITTED,
+![source image](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/SPLITTED.PNG)<br/>
 
 ## Conclusion
 Thus, successful implementation of gaussian blur filter in TLM using TLM initiator socket and target socket has been done resulting to successful blurring lena.bmp and lena_gauss2.bmp image  as shown in results.
