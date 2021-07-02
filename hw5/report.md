@@ -148,7 +148,9 @@ total3 = i_result3.get();            |                 o_result3.put(result3);
 ## Algorithm and Design
 The following design is for the FIFO implementation of the gaussian filter in STRATUS HLS.
 
-![source image](https://github.com/infinite234/ee6470_hw3/blob/main/tlm.png)<br/>
+non splitted            |  non splitted
+:-------------------------:|:-------------------------:
+![](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/siv%20(1).png)  |  ![](https://github.com/infinite234/ee6470_hw5-hw6-hw7-hw1/blob/main/hw5/siv.png)
 
 
 ## Experimental results
